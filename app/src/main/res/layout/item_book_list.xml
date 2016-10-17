@@ -7,11 +7,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
         <ImageView
+            android:layout_gravity="center_vertical"
             android:layout_margin="8dp"
             android:src="@mipmap/ic_launcher"
             android:id="@+id/iv_coverImg"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_width="120dp"
+            android:layout_height="160dp" />
     </LinearLayout>
     <LinearLayout
         android:padding="10dp"
@@ -21,24 +22,36 @@
         <TextView
             android:id="@+id/tv_name"
             android:text="BookName"
+            android:textSize="18sp"
+            android:textColor="#e2403939"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_type"
             android:text="BookType"
+            android:textSize="14sp"
+            android:textColor="#7c403939"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/tv_def"
+            android:id="@+id/tv_des"
             android:text="BookDefinition"
+            android:maxLines="4"
+            android:ellipsize="end"
             android:layout_margin="5dp"
+            android:textSize="14sp"
+            android:textColor="#7c403939"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
             android:id="@+id/tv_last_update"
             android:text="BookLastUpdadte"
+            android:textSize="10sp"
+            android:textColor="#7c403939"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

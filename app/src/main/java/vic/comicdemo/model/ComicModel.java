@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.apkfuns.logutils.LogUtils;
 import com.google.gson.Gson;
 import com.thinkland.sdk.android.DataCallBack;
 import com.thinkland.sdk.android.JuheData;
@@ -15,6 +16,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import vic.comicdemo.entity.ChapterResult;
+import vic.comicdemo.entity.ComicContent;
 import vic.comicdemo.entity.ComicListResult;
 import vic.comicdemo.utils.UrlFactory;
 
@@ -29,8 +32,11 @@ public class ComicModel {
     private static final int JSON_RESULT = 1;
     private Gson gson;
     private ComicListResult clr;
-    private List<ComicListResult> listResults;
-    private List<ComicListResult.BookListBean> bookListBeanList;
+    private ChapterResult cr;
+    private ComicContent cc;
+    private List jsonResult;
+    private List beanResultList;
+
 
     public ComicModel(Context context) {
         this.context = context;
@@ -40,9 +46,9 @@ public class ComicModel {
         this.handler = handler;
     }
 
-    public void getComicListJson(Parameters parameters){
+    public void getComicListJson(Parameters parameters,String url){
         Parameters params = parameters;
-        JuheData.executeWithAPI(context, API_ID, UrlFactory.getComicListUrl(), JuheData.GET, params, new DataCallBack() {
+        JuheData.executeWithAPI(context, API_ID, url, JuheData.GET, params, new DataCallBack() {
             @Override
             public void onSuccess(int i, String s) {
                 try {
@@ -71,11 +77,32 @@ public class ComicModel {
     public List getComicList(String s){
         gson = new Gson();
         clr =gson.fromJson(s,ComicListResult.class);
-        listResults = new ArrayList<ComicListResult>();
-        bookListBeanList = new ArrayList<ComicListResult.BookListBean>();
-        listResults.add(clr);
-        bookListBeanList = listResults.get(0).getBookList();
-        return bookListBeanList;
+        jsonResult = new ArrayList<ComicListResult>();
+        beanResultList = new ArrayList<ComicListResult.BookListBean>();
+        jsonResult.add(clr);
+        beanResultList = clr.getBookList();
+        return beanResultList;
+    }
+
+    public List getChapterList(String s){
+        gson = new Gson();
+        cr =gson.fromJson(s,ChapterResult.class);
+        jsonResult = new ArrayList();
+        beanResultList = new ArrayList();
+        jsonResult.add(cr);
+        beanResultList = cr.getChapterList();
+        return beanResultList;
+    }
+
+    public List getContentList(String s){
+        gson = new Gson();
+        cc =gson.fromJson(s,ComicContent.class);
+        LogUtils.d(cc);
+        jsonResult = new ArrayList();
+        beanResultList = new ArrayList();
+        jsonResult.add(cc);
+        beanResultList = cc.getImageList();
+        return beanResultList;
     }
 
     private void  sendJsonResult(String s){
