@@ -8,7 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.apkfuns.logutils.LogUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.MemoryCategory;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
+import com.bumptech.glide.load.engine.cache.LruResourceCache;
+import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
+import com.bumptech.glide.load.engine.prefill.PreFillType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +34,20 @@ public class BookContentAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ComicContent.ImageListBean mImageList;
     private ListView mListView;
+    private GlideBuilder mBuilder;
 
     public BookContentAdapter(List<ComicContent.ImageListBean> data, Context context) {
         this.data = data;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        MemorySizeCalculator memorySizeCalculator = new MemorySizeCalculator(context);
+        int defaultMemoryCacheSize = memorySizeCalculator.getMemoryCacheSize();
+        int defalutBitmapPoolSize = memorySizeCalculator.getBitmapPoolSize();
+        mBuilder = new GlideBuilder(context);
+        mBuilder.setMemoryCache(new LruResourceCache(defaultMemoryCacheSize*4));
+        mBuilder.setBitmapPool(new LruBitmapPool(defalutBitmapPoolSize*4));
+        LogUtils.d(memorySizeCalculator.getMemoryCacheSize());
+        LogUtils.d(memorySizeCalculator.getBitmapPoolSize());
     }
 
     @Override
@@ -61,12 +78,16 @@ public class BookContentAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         String path = mImageList.getImageUrl();
+        LogUtils.d(path);
+        //Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
+        LogUtils.d(MemoryCategory.HIGH);
         Glide.with(context)
                 .load(path)
-                .centerCrop()
+                .fitCenter()
                 .placeholder(R.mipmap.ic_launcher)
-                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.ivContent);
+
         return convertView;
     }
 

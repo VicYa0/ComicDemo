@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.apkfuns.logutils.LogUtils;
+import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +40,7 @@ public class ContentActivity extends AppCompatActivity {
         model = new ComicModel(this);
         dataList = new ArrayList<ComicContent.ImageListBean>();
         String json = intent.getStringExtra("json");
-        LogUtils.d(json);
         dataList = model.getContentList(json);
-        LogUtils.d(dataList);
         mAdapter = new BookContentAdapter(dataList,this);
         mLvContent.setAdapter(mAdapter);
     }

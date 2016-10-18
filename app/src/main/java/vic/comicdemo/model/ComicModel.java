@@ -97,7 +97,6 @@ public class ComicModel {
     public List getContentList(String s){
         gson = new Gson();
         cc =gson.fromJson(s,ComicContent.class);
-        LogUtils.d(cc);
         jsonResult = new ArrayList();
         beanResultList = new ArrayList();
         jsonResult.add(cc);
