@@ -46,8 +46,6 @@ public class BookContentAdapter extends BaseAdapter {
         mBuilder = new GlideBuilder(context);
         mBuilder.setMemoryCache(new LruResourceCache(defaultMemoryCacheSize*4));
         mBuilder.setBitmapPool(new LruBitmapPool(defalutBitmapPoolSize*4));
-        LogUtils.d(memorySizeCalculator.getMemoryCacheSize());
-        LogUtils.d(memorySizeCalculator.getBitmapPoolSize());
     }
 
     @Override
@@ -78,9 +76,6 @@ public class BookContentAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         String path = mImageList.getImageUrl();
-        LogUtils.d(path);
-        //Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
-        LogUtils.d(MemoryCategory.HIGH);
         Glide.with(context)
                 .load(path)
                 .fitCenter()
